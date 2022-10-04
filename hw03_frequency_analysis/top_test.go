@@ -81,7 +81,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("second positive test", func(t *testing.T) {
-		var someText = "cat and dog, one dog,two cats And, one! man -"
+		someText := "cat and dog, one dog,two cats And, one! man -"
 
 		expected := []string{
 			"and",     // 2
