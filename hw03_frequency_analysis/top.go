@@ -10,7 +10,11 @@ import (
 
 var ErrInvalidWordForRegexp = errors.New("panic word for regexp")
 
-func getRegexpWord(w string, re *regexp.Regexp) string {
+const limitTop = 10
+
+var re = regexp.MustCompile(`(^'|'$|'[?=,]|[?<=,]')|([,!.]$)|^-$`)
+
+func getRegexpWord(w string) string {
 	if word := re.ReplaceAllString(w, ""); word != "" {
 		return strings.ToLower(word)
 	}
@@ -25,14 +29,11 @@ func Top10(s string) []string {
 		}
 	}()
 
-	const limitTop = 10
 	counterWords := make(map[string]int)
 	var uniqWords []string
 
-	re := regexp.MustCompile(`(^'|'$|'[?=,]|[?<=,]')|([,!.]$)|^-$`)
-
 	for _, w := range strings.Fields(s) {
-		word := getRegexpWord(w, re)
+		word := getRegexpWord(w)
 		if word == "" {
 			continue
 		}
