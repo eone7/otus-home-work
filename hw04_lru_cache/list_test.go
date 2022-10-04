@@ -48,4 +48,81 @@ func TestList(t *testing.T) {
 		}
 		require.Equal(t, []int{70, 80, 60, 40, 10, 30, 50}, elems)
 	})
+
+	t.Run("check back and front", func(t *testing.T) {
+		l := NewList()
+
+		front := l.PushFront(10) // [10]
+		l.PushBack(20)           // [10, 20]
+		back := l.PushBack(30)   // [10, 20, 30]
+		require.Equal(t, front, l.Front())
+		require.Equal(t, back, l.Back())
+	})
+
+	t.Run("check size", func(t *testing.T) {
+		l := NewList()
+
+		l.PushFront(10) // [10]
+		l.PushBack(20)  // [10, 20]
+		l.PushBack(30)  // [10, 20, 30]
+		require.Equal(t, 3, l.Len())
+	})
+
+	t.Run("check remove", func(t *testing.T) {
+		l := NewList()
+
+		front := l.PushFront(10)  // [10]
+		element := l.PushBack(20) // [10, 20]
+		back := l.PushBack(30)    // [10, 20, 30]
+		l.Remove(element)         // [10, 30]
+		require.Equal(t, 2, l.Len())
+		require.Equal(t, front, l.Front())
+		require.Equal(t, back, l.Back())
+	})
+
+	t.Run("check midl elem remove", func(t *testing.T) {
+		l := NewList()
+
+		front := l.PushFront(10)  // [10]
+		element := l.PushBack(20) // [10, 20]
+		back := l.PushBack(30)    // [10, 20, 30]
+		l.Remove(element)         // [10, 30]
+		require.Equal(t, 2, l.Len())
+		require.Equal(t, front, l.Front())
+		require.Equal(t, back, l.Back())
+	})
+
+	t.Run("check front elem remove", func(t *testing.T) {
+		l := NewList()
+
+		front := l.PushFront(10)  // [10]
+		element := l.PushBack(20) // [10, 20]
+		back := l.PushBack(30)    // [10, 20, 30]
+		l.Remove(front)           // [20, 30]
+		require.Equal(t, 2, l.Len())
+		require.Equal(t, element, l.Front())
+		require.Equal(t, back, l.Back())
+	})
+
+	t.Run("check back elem remove", func(t *testing.T) {
+		l := NewList()
+
+		front := l.PushFront(10)  // [10]
+		element := l.PushBack(20) // [10, 20]
+		back := l.PushBack(30)    // [10, 20, 30]
+		l.Remove(back)            // [10, 20]
+		require.Equal(t, 2, l.Len())
+		require.Equal(t, front, l.Front())
+		require.Equal(t, element, l.Back())
+	})
+
+	t.Run("check moveToFront element", func(t *testing.T) {
+		l := NewList()
+
+		l.PushFront(10)           // [10]
+		element := l.PushBack(20) // [10, 20]
+		l.PushBack(30)            // [10, 20, 30]
+		l.MoveToFront(element)    // [20, 10, 30]
+		require.Equal(t, element.Value, l.Front().Value)
+	})
 }
